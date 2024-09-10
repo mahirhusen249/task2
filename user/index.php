@@ -11,7 +11,7 @@
 </head>
 
 <body>
-  
+
   <div class="container fluid">
     <div class="col-md-12">
       <div class="row">
@@ -22,14 +22,14 @@
         $sql = "SELECT * FROM `tblproduct`";
         $result = mysqli_query($con, $sql);
         while ($row = mysqli_fetch_array($result)) {
-            $check_page=$row['PCategory']; 
-            if($check_page==='Home'){  
+          $check_page = $row['PCategory'];
+          if ($check_page === 'Home') {
 
-            
 
-          echo " 
+
+            echo " 
  <div class='col-md-6 col-lg-4 m-auto mb-3'>   
- <form action='viewcart.php'method='POST'>    
+ <form action='viewcart.php' method='POST'>    
  
 
 <div class='card m-auto' style='width: 18rem;'>
@@ -38,20 +38,20 @@
     <h5 class='card-title text-danger fs-4 fw-bold'>$row[PName]</h5>
     <p class='card-text text-danger fs-4 fw-bold'>Rs:$row[PPrice]</p>   
     <input type='hidden'name='PName'value='$row[PName]'>  
-    <input type='hidden'name='PPrice' value='$row[PPrice]'> 
+    <input type='hidden'name='PPrice' value='$row[PPrice]'>  
     <input type='number' name='PQuantity' value='' min='1' max='20''placeholder='quantity'> <br> <br> 
     <input type='submit' name='addCart' class='btn btn-warning text-white w-100'value='Add To cart'>
+     
      
      
   </div>  
 </div>   
  </form> 
 </div>
-"; 
-          
-        }  
-      }
-        
+";
+          }
+        }
+
         ?>
       </div>
     </div>
@@ -59,3 +59,30 @@
 </body>
 
 </html>
+
+<?php
+
+
+// if (isset($_POST['addCart'])) {
+
+
+//   $name = $_POST['PName']; 
+//   $price = $_POST['PPrice'];
+//   $quntity = $_POST['PQuantity'];
+//   $total = $price *  $quntity;
+
+//   $sql = "INSERT INTO `add_to_cart` (`name`, `price`, `quantity`, `total`) VALUES ('$name', '$price', '$quntity', '$total')";
+
+//   $result = mysqli_query($con, $sql);
+
+//   if ($result) {   
+//     // print_r($result); 
+//     // exit;
+//     header('Location:viewcart.php'); 
+//     // header('location:viewcart.php');
+//   } else {
+//     echo 'Error';
+//     exit;
+//   }
+// }
+?>

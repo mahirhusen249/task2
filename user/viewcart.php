@@ -11,35 +11,85 @@
 
 </head>
 
-<body>
+<body> 
     
+
     <?php
     include 'header.php';
-    session_start();
-if (isset($_POST['addCart'])) {
 
-    $product_name = $_POST['PName'];
-    $product_price = $_POST['PPrice'];
-    $product_quantity = $_POST['PQuantity'];
 
-if(isset($_POST['addCart'])){
+    // session_start();  
+    // session_destroy();
 
-    $check_product=array_column($_SESSION['cart'],'PName');
-    if(in_array($product_name,$check_product)){
-        echo "<script>alert('Product Already Added')
-            header('location:index.php');
-        </script>";
+
+
+    if (isset($_POST['addCart'])) {
+
+        $product_name = $_POST['PName'];
+        $product_price = $_POST['PPrice'];
+        $product_quantity = $_POST['PQuantity'];
+
+        $sub_total = $product_price * $product_quantity;
+
+
+
+
+
+
+
+        if (isset($_POST['addCart'])) {
+
+
+            $_SESSION['cart'][] = array(
+                'PName' => $product_name,
+                'PPrice' => $product_price,
+                'PQuantity' => $product_quantity,
+                'Subtotal' => $sub_total
+            );
+        }
+    }
+    //  
+    //remove product
+
+    if (isset($_POST['remove'])) {
+        foreach ($_SESSION['cart'] as $key => $value) {
+            if ($value['PName'] === $_POST['item']) {
+                unset($_SESSION['cart'][$key]);
+                $_SESSION['cart'] = array_values($_SESSION['cart']);
+                header('location:viewcart.php');
+            }
+        }
     }
 
-else{
-    $_SESSION['cart'][] = array(
-        'PName' => $product_name,
-        'PPrice' => $product_price,
-        'PQuantity' => $product_quantity
-    );}
-}
-}
-?>
+
+
+    // update product
+
+    if (isset($_POST['update'])) {
+
+        // print_r($_POST);  
+        // // exit; 
+        // print_r($_SESSION['cart']);  
+        // exit;
+        foreach ($_SESSION['cart'] as $key => $value) {
+
+            if ($value['PName'] == $_POST['item']) {
+                $_SESSION['cart'][$key] = array(
+                    'PName' => $_POST['PName'],
+                    'PPrice' => $_POST['PPrice'],
+                    'PQuantity' => $_POST['PQuantity'],
+                    'Subtotal' => $_POST['PPrice'] * $_POST['PQuantity']
+                );
+                //  header('location:viewcart.php');
+            }
+        }
+    }
+
+
+    ?>
+
+
+
     <div class="container">
         <div class="row justify-content-around">
             <div class="col-md-12 text-center bg-light mb-5 rounded">
@@ -48,55 +98,99 @@ else{
         </div>
     </div>
     <div class="conatiner-fluid">
-        <div class="row"> 
+        <div class="row">
             <div class="col-sm-12 col-md-6  col-lg-9">
                 <table class="table table-bordered text-center">
                     <thead class="bg-danger text-white fs-5">
-             <th>index no.</th>
-             <th>ProductName</th>
-             <th>productPrice</th>
-             <th>productQuantity</th>
-             <th>total price</th>
-             <th>Update</th>
-             <th>Delete</th>
-                    </thead> 
-                    <tbody>  
-                         <?php   
-                       
-                        // if(isset($_SESSION['cart'])){   
-                        //     foreach($_SESSION['cart'] as $key=> $value) {   
-                                
-                        //         echo"<form action='viewcart.php' method='post'>
-                        //         <tr> 
-                        //         <td>$key</td>   
-                        //         <td>$value[PName]</td>  
-                        //         </tr>   </form> ";
-                        //     }
-                        // }  
+                        <th>serial No.</th>
+                        <th>ProductName</th>
+                        <th>productPrice</th>
+                        <th>productQuantity</th>
+                        <th>total price</th>
+                        <th>Update</th>
+                        <th>Delete</th>
+                    </thead>
+                    <tbody>
+                        <?php
+                        $i = 0;
                         if (isset($_SESSION['cart'])) {
+                            // print_r($_SESSION['cart']); 
                             foreach ($_SESSION['cart'] as $key => $value) {
+                                $i = $key + 1;
 
-                                $total= $value['PPrice']  *  $value['PQuantity'];
-                                echo "<form action='viewcart.php' method='po
-                                 <tr>
-                                    <td>$key</td>
-                                    <td><input type='hidden' name='PName' value='$value[PName]'>$value[PName]</td>
-                                    <td><input type='hidden' name='PPrice' value='$value[PPrice]'>$value[PPrice]</td>
-                                    <td><input type='hidden' name='PQuantity' value='$value[PQuantity]'>$value[PQuantity]</td>
-                                    <td>$total</td>
-                                    <td><button class='btn btn-warning' name='update'>UPDATE</button></td>
-                                    <td><button class='btn btn-danger' name='remove'>DELETE</button></td>
-                                    <td><input type='hidden' name='item' value='$value[PName]'></td>
-                                </tr> </form>";
+                                // $sub_total = $product_price * $product_quantity;  
+                                //  $sub_total = $product_price * $product_quantity;  
+
+
+                                echo "<form action='viewcart.php' method='post'>
+                                <tr> 
+                                    <td>
+                                       $i
+                                    </td>   
+                                    <td>
+                                        <input type='hidden' name='PName' value='$value[PName]'> $value[PName]
+                                       
+                                    </td>  
+                                    <td>
+                                        <input type='hidden' name='PPrice' value='$value[PPrice]'>$value[PPrice]
+                                    </td>  
+                                    <td>
+                                        <input type='' name='PQuantity' value='$value[PQuantity]'>
+                                    </td>   
+                                    <td>
+                                        $value[Subtotal]   
+                                    </td>   
+                            
+                                    <td> 
+                                 
+                                        <button class='btn btn-warning' name='update'>UPDATE</button>  
+                                  
+                                    </td> 
+                                  
+                                       <td> 
+                                  
+                                     <button class='btn btn-danger' name='remove' onclick='return checkdelete()'>DELETE</button>
+                                        <p id='demo'></p>
+                                    </td>  
+                                    <td>
+                                        <input type='hidden' name='item' value='$value[PName]' >
+                                    </td>
+                                </tr>   </form> ";  
+                                
                             }
-                        }     
+                        } 
+                                 
 
-                        ?> 
+                        // session_destroy();
+                        ?>   
                     </tbody>
                 </table>
+                <!-- <div class="col-lg-3 text-center"> 
+                    <h3>total</h3>  
+                    <h1 class="bg-danger text-white">
+                </div> -->
             </div>
         </div>
-    </div>
+    </div> 
+   
+    <a href="index.php" class='btn btn-danger fs-5' name='home'>back to Home</button>
+  
 </body>
 
 </html>
+
+<script>   
+function checkdelete(){    
+    return confirm('Are you sure you want to delete this record ?');
+}
+// function myFunction() {
+//   let text = "Press a button DELETE!\nEither OK or Cancel.";
+//   if (confirm(text) == true) {
+//     text = "You pressed OK!";
+//   } else {
+//     text = "You canceled!";
+//   }       <button class='btn btn-danger' name='remove'>DELETE </button>
+
+//   document.getElementById("demo").innerHTML = text;
+// }<button class='btn btn-danger' name='remove' onclick='myFunction()'>Delete</button>
+// </script>

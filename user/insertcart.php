@@ -1,3 +1,50 @@
+<!-- 
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    
+
+<button onclick="myFunction()">Try it</button>             
+
+<p id="demo"></p>
+
+<script>
+function myFunction() {
+  let text = "Press a button!\nEither OK or Cancel.";
+  if (confirm(text) == true) {
+    text = "You pressed OK!";
+  } else {
+    text = "You canceled!";
+  }
+  document.getElementById("demo").innerHTML = text;
+}
+</script>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 <!--  <?php
 // session_start();   
 // session_destroy();
@@ -43,4 +90,4 @@
 //     );}
 // }
 // }
-// ?>
+// ?> -->

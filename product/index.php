@@ -34,8 +34,8 @@ include 'insert.php';
 
                     <div class="mb-3">
                         <label>Add Product Image:</label>
-                        <input type="file" name="Pimage" class="form-control">
-                    </div>
+                        <input type="file" name="Pimage" class="form-control"> 
+                    </div>  
                     <div class="mb-3">
                         <label>Select category:</label>
                         <select class="form-select" name="Pages">

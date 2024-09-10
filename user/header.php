@@ -11,13 +11,21 @@
 
 </head>
 
-<body>
+<body>   
+    <?php      
+    session_start();
+    $count=0;  
+    if(isset($_SESSION['cart'])){   
+        $count=count($_SESSION['cart']);
+    }
+    
+    ?>
     <nav class="navbar navbar-light bg-light">
         <div class="container-fluid font-monospace">
             <a class="navbar-brand pb-2"> <img src="logo-1.png" height="70px" width="120px"></a>
             <div class="d-flex">
                 <a href="index.php" class="text-warning text-decoration-none pe-2"><i class="fa-solid fa-house"></i>Home |</a>
-                <a href="" class="text-warning text-decoration-none pe-2"><i class="fa-solid fa-cart-shopping"></i></i>cart(0) |</a>
+                <a href="viewcart.php" class="text-warning text-decoration-none pe-2"><i class="fa-solid fa-cart-shopping"></i></i>cart(<?php echo $count ?>) |</a>
                 <span class="text-warning pe-2">
                     <i class="fa-solid fa-user"></i>hello,
                     <a href="" class="text-warning text-decoration-none pe-2"><i class="fa-solid fa-right-to-bracket"></i>Login |</a>
@@ -29,7 +37,7 @@
     </nav>
     </div>
 
-    <div class="bg-danger font-monospace">
+    <div class="bg-danger sticky-top font-monospace">
         <ul class="list-unstyled d-flex justify-content-center">
             <li><a href="laptop.php" class="text-decoration-none text-white fw-bold fs-4 px-5">LAPTOPS</a></li>
             <li><a href="mobile.php" class="text-decoration-none text-white fw-bold fs-4 px-5">MOBILES</a></li>
